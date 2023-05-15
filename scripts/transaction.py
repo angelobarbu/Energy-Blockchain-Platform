@@ -6,23 +6,26 @@
 
 from web3 import Web3
 from web3.gas_strategies.rpc import rpc_gas_price_strategy
-from solcx import compile_source
+import solcx
 from pathlib import Path
 import os
 from datetime import datetime
 import pymongo
 
 # Hardcodarea parametrilor pentru declansarea tranzactiei si emiterea contractului smart
-buyer_wallet = '0x80AA3c5c7c41F622Fe48ccdf1E2884bDC3f485e8'
-buyer_pk = '0xc71d1f08136c6c64d8e4169e9d9ba9ede8086be8a2509a68f93038c3ef8f84a5'
-seller_wallet = '0xB9A02a5966e56F6a94E97f9ECFc79f5d9536d85b'
-price = 1
-quantity = 5
+buyer_wallet = '0x66B294F65b4b0fCc4B90a9f3C0B70f510D122e94'
+buyer_pk = '0xceb23e34f474b633f3afd17a34e960ab7e154b2b11f346a01ce6be802c1e2d03'
+seller_wallet = '0x50A7cf135083f3F90566eeF565b345a95B326C54'
+price = 2
+quantity = 3
 delivery_date = (datetime.now()).strftime("%Y/%m/%d %H:%M:%S")
-asset_description = 'Oil'
+asset_description = 'LPG'
 
 # Conectarea la reteaua blockchain locala
 web3 = Web3(Web3.HTTPProvider('http://localhost:7545'))
+
+# Setarea compilatorului Solidity la versiunea folosita pentru contractul Smart
+solcx.set_solc_version("0.8.0")
 
 # Setarea strategiei de calcul al pretului combustibilului de transfer
 web3.eth.set_gas_price_strategy(rpc_gas_price_strategy)
@@ -31,7 +34,7 @@ web3.eth.set_gas_price_strategy(rpc_gas_price_strategy)
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 contract_path = Path(os.path.abspath('contract.sol'))
 contract_source = contract_path.read_text()
-compiled_contract = compile_source(contract_source)['<stdin>:EnergyContract']
+compiled_contract = solcx.compile_source(contract_source)['<stdin>:EnergyContract']
 contract = web3.eth.contract(abi=compiled_contract['abi'], bytecode=compiled_contract['bin'])
 
 # Initializarea tranzactiei folosind cheia privata a cumparatorului
