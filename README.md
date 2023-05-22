@@ -24,3 +24,5 @@ Dependencies:
 To run the server, dependencies must be installed and one of the following commands must be executed:
 - npm run serve server.js -> run using node
 - npm run dev server.js -> run using nodemon for real-time code modifications
+
+The server runs on localhost, port 3000.
