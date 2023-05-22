@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Platforma de tranzactii a resurselor energetice</title>
+    <link href="css/style.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="index-style d-flex" id="wrapper">
+        <div class="sidebar-style border-end" id="sidebar-wrapper">
+            <div class="sidebar-style sidebar-heading border-bottom">Meniu</div>
+            <div class="list-group list-group-flush">
+                <a class="list-group-item list-group-item-action p-3" href="home.html">Home</a>
+                <a class="list-group-item list-group-item-action p-3" href="transactions.html">Tranzactiile mele</a>
+                <a class="list-group-item list-group-item-action p-3" href="#!">Contractele mele</a>
+                <a class="list-group-item list-group-item-action p-3" href="account.html">Contul meu</a>
+            </div>
+        </div>
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <h1 class="mt-4">Contractele mele</h1>
+                
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', event => {
+
+            // Toggle the side navigation
+            const sidebarToggle = document.body.querySelector('#sidebarToggle');
+            if (sidebarToggle) {
+                // Uncomment Below to persist sidebar toggle between refreshes
+                // if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
+                //     document.body.classList.toggle('sb-sidenav-toggled');
+                // }
+                sidebarToggle.addEventListener('click', event => {
+                    event.preventDefault();
+                    document.body.classList.toggle('sb-sidenav-toggled');
+                    localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+                });
+            }
+
+        });
+    </script>
+</body>
+
+</html>

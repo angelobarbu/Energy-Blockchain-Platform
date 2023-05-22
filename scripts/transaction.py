@@ -16,10 +16,10 @@ import pymongo
 buyer_wallet = '0x66B294F65b4b0fCc4B90a9f3C0B70f510D122e94'
 buyer_pk = '0xceb23e34f474b633f3afd17a34e960ab7e154b2b11f346a01ce6be802c1e2d03'
 seller_wallet = '0x50A7cf135083f3F90566eeF565b345a95B326C54'
-price = 2
-quantity = 3
+price = 1.5
+quantity = 10
 delivery_date = (datetime.now()).strftime("%Y/%m/%d %H:%M:%S")
-asset_description = 'LPG'
+asset_description = 'Oil'
 
 # Conectarea la reteaua blockchain locala
 web3 = Web3(Web3.HTTPProvider('http://localhost:7545'))
@@ -44,7 +44,7 @@ tx = web3.eth.account.sign_transaction(
         "gasPrice": web3.eth.generate_gas_price(),
         "gas": 21000,
         "to": seller_wallet,
-        "value": web3.to_wei(price, "ether"),
+        "value": web3.to_wei(price, 'ether'),
     },
     buyer_pk,
 )
@@ -64,8 +64,8 @@ contract_constructor = contract.constructor(
     delivery_date,
     asset_description
 ).build_transaction({
-    'from': web3.to_checksum_address(buyer_wallet),
-    'nonce': web3.eth.get_transaction_count(buyer_wallet),
+    "from": web3.to_checksum_address(buyer_wallet),
+    "nonce": web3.eth.get_transaction_count(buyer_wallet),
 })
 
 # Initializarea si emiterea contractului smart
@@ -80,12 +80,12 @@ print(f'Contract emis cu succes la adresa: { contract_address }')
 print(f'Timestamp: {delivery_date}')
 
 # Conectarea la clientul Mongo si preluarea id-urilor cumparatorului si vanzatorului
-dbclient = pymongo.MongoClient("mongodb+srv://angelobarbu:5jnlegmqWryv6qtF@platformdb.dh4ypq7.mongodb.net/")
-db = dbclient["transactions_platform"]
+dbclient = pymongo.MongoClient('mongodb+srv://angelobarbu:5jnlegmqWryv6qtF@platformdb.dh4ypq7.mongodb.net/')
+db = dbclient['transactions_platform']
 
-users = db["users"]
-seller_id = users.find_one({"wallet_address": seller_wallet})["_id"]
-buyer_id = users.find_one({"wallet_address": buyer_wallet})["_id"]
+users = db['users']
+seller_id = users.find_one({'wallet_address': seller_wallet})['_id']
+buyer_id = users.find_one({'wallet_address': buyer_wallet})['_id']
 
 # Inserarea tranzactiei si a contractului smart in baza de date
 transaction_dict = {
@@ -111,8 +111,8 @@ contract_dict = {
     "contract_address": contract_address
 }
 
-transactions = db["transactions"]
-contracts = db["contracts"]
+transactions = db['transactions']
+contracts = db['contracts']
 inserted_transaction = transactions.insert_one(transaction_dict)
 print(f'Tranzactia a fost adaugata cu succes in baza de date, cu id-ul: {inserted_transaction.inserted_id}')
 inserted_contract = contracts.insert_one(contract_dict)

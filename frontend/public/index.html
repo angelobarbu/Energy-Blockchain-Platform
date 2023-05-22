@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Login platforma</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+<section class="forms-section">
+    <h1 class="section-title">Platforma de tranzactionare a resurselor
+        energetice</h1>
+    <div class="forms">
+        <div class="form-wrapper is-active">
+            <button type="button" class="switcher switcher-login">
+                Autentificare
+                <span class="underline"></span>
+            </button>
+            <form action="http://localhost:3000/login" method="post" class="form form-login" id="form-login" name="form-login">
+                <fieldset>
+                    <legend>Introduceti numele de utilizator si parola pentru autentificare.</legend>
+                    <div class="input-block">
+                        <label for="login-username">Nume utilizator</label>
+                        <input id="login-username" name="login-username" type="text" required>
+                    </div>
+                    <div class="input-block">
+                        <label for="login-password">Parola</label>
+                        <input id="login-password" name="login-password" type="password" required>
+                    </div>
+                </fieldset>
+                <button type="submit" id="btn-login" name="btn-login" class="button btn-login">Autentificare</button>
+            </form>
+        </div>
+        <div class="form-wrapper">
+            <button type="button" class="switcher switcher-signup">
+                Inregistrare
+                <span class="underline"></span>
+            </button>
+            <form action="http://localhost:3000/signup" method="post" class="form form-signup" id="form-signup" name="form-signup">
+                <fieldset>
+                    <legend>Completati campurile pentru a crea un cont</legend>
+                    <div class="input-block">
+                        <label for="signup-username">Nume utilizator</label>
+                        <input id="signup-username" name="signup-username" type="text" required>
+                    </div>
+                    <div class="input-block">
+                        <label for="signup-name">Nume complet</label>
+                        <input id="signup-name" name="signup-name" type="text" required>
+                    </div>
+                    <div class="input-block">
+                        <label for="signup-email">E-mail</label>
+                        <input id="signup-email" name="signup-email" type="text" required>
+                    </div>
+                    <div class="input-block">
+                        <label for="signup-phone">Numar de telefon</label>
+                        <input id="signup-phone" name="signup-phone" type="text" required>
+                    </div>
+                    <div class="input-block">
+                        <label for="signup-address">Adresa</label>
+                        <input id="signup-address" name="signup-address" type="text" required>
+                    </div>
+                    <div class="input-block">
+                        <label for="signup-wallet-address">Adresa portofel digital</label>
+                        <input id="signup-wallet-address" name="signup-wallet-address" type="text" required>
+                    </div>
+                    <div class="input-block">
+                        <label for="signup-password">Parola</label>
+                        <input id="signup-password" name="signup-password" type="password" required>
+                    </div>
+                </fieldset>
+                <button type="submit" id="btn-signup" name="btn-signup" class="button btn-signup">Inregistreaza-te</button>
+            </form>
+        </div>
+    </div>
+</section>
+<script>
+    const switchers = [...document.querySelectorAll('.switcher')]
+
+    switchers.forEach(item => {
+        item.addEventListener('click', function () {
+            switchers.forEach(item => item.parentElement.classList.remove('is-active'))
+            this.parentElement.classList.add('is-active')
+        })
+    })
+</script>
+</body>
+
+</html>
