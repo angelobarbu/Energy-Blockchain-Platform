@@ -15,11 +15,15 @@ import pymongo
 # Hardcodarea parametrilor pentru declansarea tranzactiei si emiterea contractului smart
 buyer_wallet = '0x66B294F65b4b0fCc4B90a9f3C0B70f510D122e94'
 buyer_pk = '0xceb23e34f474b633f3afd17a34e960ab7e154b2b11f346a01ce6be802c1e2d03'
-seller_wallet = '0x50A7cf135083f3F90566eeF565b345a95B326C54'
-price = 1.5
-quantity = 10
+seller_wallet = '0x2d355e1C5fE5Cb0c47f4BfA46964f65Ee49545be'
+price = 0.82
+quantity = 45
 delivery_date = (datetime.now()).strftime("%Y/%m/%d %H:%M:%S")
-asset_description = 'Oil'
+asset_description = 'GNL'
+
+# Cumparator:'0x66B294F65b4b0fCc4B90a9f3C0B70f510D122e94''0xceb23e34f474b633f3afd17a34e960ab7e154b2b11f346a01ce6be802c1e2d03'
+# Vanzator: '0x50A7cf135083f3F90566eeF565b345a95B326C54'
+# Cont buffer: '0x2d355e1C5fE5Cb0c47f4BfA46964f65Ee49545be' '0x3dcc22c33509b3bb6734976c8ed4cd5e705466ca17f03c8862ae950e437776df'
 
 # Conectarea la reteaua blockchain locala
 web3 = Web3(Web3.HTTPProvider('http://localhost:7545'))
@@ -108,7 +112,8 @@ contract_dict = {
     "quantity": quantity,
     "asset_description": asset_description,
     "delivery_date": delivery_date,
-    "contract_address": contract_address
+    "contract_address": contract_address,
+    "transaction_hash": hash
 }
 
 transactions = db['transactions']

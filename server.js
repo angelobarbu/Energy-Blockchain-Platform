@@ -14,6 +14,8 @@ app.use(bodyParser.json())
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }))
 
+app.set('view engine', 'ejs')
+
 // Rularea serverului pe portul 3000
 app.get('/', (req, res) => {
     res.set({
@@ -75,8 +77,8 @@ app.post('/signup', async (req, res) => {
     return res.redirect('/signup-success.html')
 })
 
-var username;
-var userId;
+var username
+var userId
 
 // Autentificarea utilizatorului in urma logarii si retinerea id-ului acestuia
 app.post('/login', async (req, res) => {
@@ -94,7 +96,7 @@ app.post('/login', async (req, res) => {
             console.log("Login successful")
             username = user['username']
             userId = user['_id']
-            return res.redirect('/home.html')
+            return res.render('home')
         } else {
             console.log("Wrong password")
             return res.redirect('/login-fail.html')
@@ -106,31 +108,75 @@ app.post('/login', async (req, res) => {
 
 })
 
-app.get('/closed-transactions', async (req, res) => {
-    $html = '';
+app.get('/home', async (req, res) => {
+    return res.render('home')
+})
+
+app.get('/contracts', async (req, res) => {
+    return res.render('contracts')
+})
+
+app.get('/account', async (req, res) => {
+    return res.render('account')
+})
+
+// Afisarea tranzactiilor de vanzare si cumparare din baza de date
+// pentru utilizatorul autentificat
+app.get('/transactions', async (req, res) => {
+    // Preluare tranzactii de vanzare
     try {
-        var closed_transactions = await database.collection('transactions').find({ _id: seller_id, closed: 1 }).toArray()
-        console.log(closed_transactions)
+        var transactions = await database.collection('transactions').find({ seller_id: userId, closed: 1 }).toArray()
     } catch (error) {
         console.log(error)
     }
-
-    closed_transactions.foreach( async (transaction) => {
+    for (var i = 0; i < transactions.length; i++) {
         try {
-            var buyer_username = await database.collection('users').findOne({ _id: transaction['buyer_id'] })['username']
-            console.log(buyer_username)
+            var buyer_id = transactions[i]['buyer_id']
+            var buyer = await database.collection('users').findOne({ _id: buyer_id })
+            var buyer_username = buyer['username']
         } catch (error) {
             console.log(error)
         }
-        $html += '<tr>'
-        $html += '<td>' + 'Vanzare' + '</td>'
-        $html += '<td>' + transaction['asset_description'] + '</td>'
-        $html += '<td>' + transaction['price'] + '</td>'
-        $html += '<td>' + transaction['quantity'] + '</td>'
-        $html += '<td>' + transaction['delivery_date'] + '</td>'
-        $html += '<td>' + buyer_username + '</td>'
-        $html += '<td>' + transaction['transaction_hash'] + '</td>'
-        $html += '</tr>'
-        document.getElementById('closed-transactions-table-body').innerHTML = $html
-    })
+        transactions[i]['buyer_seller_username'] = buyer_username
+        transactions[i]['type'] = 'Vanzare'
+    }
+
+    // Preluare tranzactii de cumparare
+    try {
+        var buying_transactions = await database.collection('transactions').find({ buyer_id: userId, closed: 1 }).toArray()
+    } catch (error) {
+        console.log(error)
+    }
+    for (var i = 0; i < buying_transactions.length; i++) {
+        try {
+            var seller_id = buying_transactions[i]['seller_id']
+            var seller = await database.collection('users').findOne({ _id: seller_id })
+            var seller_username = seller['username']
+        } catch (error) {
+            console.log(error)
+        }
+        buying_transactions[i]['buyer_seller_username'] = seller_username
+        buying_transactions[i]['type'] = 'Cumparare'
+    }
+
+    // Trimitere la frontend a tranzactiilor de vanzare si cumparare
+    if (transactions.length && buying_transactions.length) {
+        for (var i = 0; i < buying_transactions.length; i++) {
+            transactions[transactions.length + 1] = buying_transactions[i]
+        }
+        console.log('Ambele')
+        return res.render('transactions', { transactions: transactions })
+    } else if (transactions.length && !buying_transactions.length) {
+        console.log('Vanzare')
+        return res.render('transactions', { transactions: transactions })
+    } else if (!transactions.length && buying_transactions.length) {
+        console.log('Cumparare')
+        return res.render('transactions', { transactions: buying_transactions })
+    } else if (!transactions.length && !buying_transactions.length) {
+        console.log('Nu exista tranzactii incheiate')
+        transactions[0] = {
+            'type': 'Nu exista tranzactii incheiate'
+        }
+        return res.render('transactions', { transactions: transactions })
+    }
 })

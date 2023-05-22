@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Platforma de tranzactii a resurselor energetice</title>
+    <link href="css/style.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="index-style d-flex" id="wrapper">
+        <div class="sidebar-style border-end" id="sidebar-wrapper">
+            <div class="sidebar-style sidebar-heading border-bottom">Meniu</div>
+            <div class="list-group list-group-flush">
+                <a class="list-group-item list-group-item-action p-3" href="home">Home</a>
+                <a class="list-group-item list-group-item-action p-3" href="#!">Tranzactiile mele</a>
+                <a class="list-group-item list-group-item-action p-3" href="contracts">Contractele mele</a>
+                <a class="list-group-item list-group-item-action p-3" href="account">Contul meu</a>
+            </div>
+        </div>
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <h1 class="mt-4">Tranzactiile mele</h1> <br><br>
+                <h2 class="mt-1">Tranzactii incheiate</h2>
+                <table class="closed-transactions-table">
+                    <tr>
+                        <th scope="col">Tip</th>
+                        <th scope="col">Resursa</th>
+                        <th scope="col">Pret</th>
+                        <th scope="col">Cantitate</th>
+                        <th scope="col">Data</th>
+                        <th scope="col">Cumparator/Vanzator</th>
+                        <th scope="col">Hash</th>
+                    </tr>
+                    <% transactions.forEach(function(transaction) { %>
+                    <tr>
+                        <td><%= transaction.type %></td>
+                        <td><%= transaction.asset_description %></td>
+                        <td><%= transaction.price %></td>
+                        <td><%= transaction.quantity %></td>
+                        <td><%= transaction.delivery_date %></td>
+                        <td><%= transaction.buyer_seller_username %></td>
+                        <td><%= transaction.transaction_hash %></td>
+                    </tr>
+                    <% }) %>
+                </table>
+
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', event => {
+
+            // Toggle the side navigation
+            const sidebarToggle = document.body.querySelector('#sidebarToggle');
+            if (sidebarToggle) {
+                // Uncomment Below to persist sidebar toggle between refreshes
+                // if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
+                //     document.body.classList.toggle('sb-sidenav-toggled');
+                // }
+                sidebarToggle.addEventListener('click', event => {
+                    event.preventDefault();
+                    document.body.classList.toggle('sb-sidenav-toggled');
+                    localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+                });
+            }
+
+        });
+    </script>
+</body>
+
+</html>

@@ -10,6 +10,14 @@ body {
   background-image: url("../resources/background.jpg")
 }
 
+.closed-transactions-table td {
+  padding: 0 25px;
+}
+
+.closed-transactions-table th {
+  padding: 0 25px;
+}
+
 .index-style {
   background-color: #DDE6ED;
 }
