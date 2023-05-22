@@ -15,7 +15,7 @@ Serverul ruleaza pe localhost, port 3000.
 # Blockchain system for energy resources' tracking and certification
 Local Blockchain network that runs using Ganache and Truffle suite for energy resources' trade, tracking and certification.
 Backend wise, Web3.py is used to trigger the transaction and deploy the smart contract written using Solidity programming language.
-Frontend wise, HTML, CSS and JavaScript(NOde. js) were used and they were connected using mongoose JS library.
+Frontend wise, HTML, CSS and JavaScript(Node.js) were used and they were connected using mongoose JS library.
 
 Dependencies:
 - Python: Web3.py, solcx, Pymongo
