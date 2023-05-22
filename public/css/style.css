@@ -18,6 +18,14 @@ body {
   padding: 0 25px;
 }
 
+.contracts-table td {
+  padding: 0 10px;
+}
+
+.contracts-table th {
+  padding: 0 10px;
+}
+
 .index-style {
   background-color: #DDE6ED;
 }

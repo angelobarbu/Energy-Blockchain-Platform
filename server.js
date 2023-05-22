@@ -112,8 +112,50 @@ app.get('/home', async (req, res) => {
     return res.render('home')
 })
 
+
+// Afisarea contractelor din baza de date pentru utilizatorul autentificat
 app.get('/contracts', async (req, res) => {
-    return res.render('contracts')
+    try {
+        var contracts = await database.collection('contracts').find({
+            $or: [
+                { seller_id: userId },
+                { buyer_id: userId }
+            ]
+        }).toArray()
+    } catch (error) {
+        console.log(error)
+    }
+
+    if (contracts.length) {
+
+        for (var i = 0; i < contracts.length; i++) {
+            try {
+                var seller_id = contracts[i]['seller_id']
+                var seller = await database.collection('users').findOne({ _id: seller_id })
+                var seller_username = seller['username']
+            } catch (error) {
+                console.log(error)
+            }
+            contracts[i]['seller_username'] = seller_username
+
+            try {
+                var buyer_id = contracts[i]['buyer_id']
+                var buyer = await database.collection('users').findOne({ _id: buyer_id })
+                var buyer_username = buyer['username']
+            } catch (error) {
+                console.log(error)
+            }
+            contracts[i]['buyer_username'] = buyer_username
+        }
+
+        return res.render('contracts', { contracts: contracts })
+    } else {
+        contracts[0] = {
+            buyer_username: 'Nu exista contracte'
+        }
+        return res.render('contracts', { contracts: contracts })
+    }
+
 })
 
 app.get('/account', async (req, res) => {

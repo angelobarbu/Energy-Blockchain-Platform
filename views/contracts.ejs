@@ -20,7 +20,30 @@
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <h1 class="mt-4">Contractele mele</h1>
-                
+                <table class="contracts-table">
+                    <tr>
+                        <th scope="col">Cumparator</th>
+                        <th scope="col">Vanzator</th>
+                        <th scope="col">Resursa</th>
+                        <th scope="col">Cantitate</th>
+                        <th scope="col">Pret</th>
+                        <th scope="col">Data</th>
+                        <th scope="col">Adresa contract</th>
+                        <th scope="col">Hash tranzactie</th>
+                    </tr>
+                    <% contracts.forEach(function(contract) { %>
+                    <tr>
+                        <td><%= contract.buyer_username %></td>
+                        <td><%= contract.seller_username %></td>
+                        <td><%= contract.asset_description %></td>
+                        <td><%= contract.quantity %></td>
+                        <td><%= contract.price %></td>
+                        <td><%= contract.delivery_date %></td>
+                        <td><%= contract.contract_address %></td>
+                        <td><%= contract.transaction_hash %></td>
+                    </tr>
+                    <% }) %>
+                </table>
             </div>
         </div>
     </div>
