@@ -290,6 +290,35 @@ body {
   clip: rect(0 0 0 0);
 }
 
+.change-block {
+  text-align: left;
+}
+
+.change-block label {
+  display: inline-flex;
+  font-size: 16px;
+  color: black;
+}
+
+.show-account-info {
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+.change-block input {
+  width: 12%;
+  height: 3%;
+  margin-left: 15px;
+  padding-right: 15px;
+  padding-left: 15px;
+  font-size: 16px;
+  line-height: 40px;
+  color: #3b4465;
+  background: #B0C4DE;
+  border: 1px solid #cddbef;
+  border-radius: 2px;
+}
+
 .input-block {
   margin-bottom: 20px;
 }
@@ -311,6 +340,30 @@ body {
   background: #B0C4DE;
   border: 1px solid #cddbef;
   border-radius: 2px;
+}
+
+.btn-change {
+  color: #fbfdff;
+  background: #38598b;
+  transform: translateX(-30%);
+  padding: 3px;
+}
+
+.btn-change:hover {
+  color: #fff;
+  background: #B0C4DE;
+}
+
+.change-name-form [type='submit'] {
+  opacity: 1;
+  display: block;
+  min-width: 120px;
+  margin: 30px auto 10px;
+  font-size: 18px;
+  line-height: 40px;
+  border-radius: 25px;
+  border: none;
+  transition: all .3s ease-out;
 }
 
 .form [type='submit'] {

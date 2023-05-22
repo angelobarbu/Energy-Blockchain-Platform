@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Platforma de tranzactii a resurselor energetice</title>
+    <title>Contul meu</title>
     <link href="css/style.css" rel="stylesheet" />
 </head>
 
@@ -20,7 +20,87 @@
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <h1 class="mt-4">Contul meu</h1>
-                
+
+                <h2 class="mt-1">
+                    <%= account.username %>
+                </h2>
+
+                <b class="show-account-info">Nume: </b>
+                <%= account.name %> <br> <br>
+                    <b class="show-account-info">Email: </b>
+                    <%= account.email %> <br> <br>
+                        <b class="show-account-info">Telefon: </b>
+                        <%= account.phone %> <br> <br>
+                            <b class="show-account-info">Adresa: </b>
+                            <%= account.address %> <br> <br>
+                                <b class="show-account-info">Portofel digital: </b>
+                                <%= account.wallet_address %> <br> <br>
+                                    <br> <br>
+
+                                    <h3 class="mt-1">Schimba datele contului</h3>
+                                    <form action="http://localhost:3000/change-name" method="post"
+                                        class="change-form" id="change-name-form" name="change-name-form">
+                                        <div class="change-block">
+                                            <label for="change-name">Nume</label>
+                                            <input id="change-name" name="change-name" type="text" required>
+                                        </div>
+                                        <button type="submit" id="btn-submit-change-name" name="btn-submit-change-name"
+                                            class="btn-change">Schimba numele</button>
+                                    </form>
+                                    <form action="http://localhost:3000/change-email" method="post"
+                                        class="change-form" id="change-email-form" name="change-email-form">
+                                        <div class="change-block">
+                                            <label for="change-email">Email</label>
+                                            <input id="change-email" name="change-email" type="text" required>
+                                        </div>
+                                        <button type="submit" id="btn-submit-change-email" name="btn-submit-change-email"
+                                            class="btn-change">Schimba email-ul</button>
+                                    </form>
+                                    <form action="http://localhost:3000/change-phone" method="post"
+                                        class="change-form" id="change-phone-form" name="change-phone-form">
+                                        <div class="change-block">
+                                            <label for="change-phone">Telefon</label>
+                                            <input id="change-phone" name="change-phone" type="text" required>
+                                        </div>
+                                        <button type="submit" id="btn-submit-change-phone" name="btn-submit-change-phone"
+                                            class="btn-change">Schimba telefon</button>
+                                    </form>
+                                    <form action="http://localhost:3000/change-address" method="post"
+                                        class="change-form" id="change-address-form" name="change-address-form">
+                                        <div class="change-block">
+                                            <label for="change-address">Adresa</label>
+                                            <input id="change-address" name="change-address" type="text" required>
+                                        </div>
+                                        <button type="submit" id="btn-submit-change-address" name="btn-submit-change-address"
+                                            class="btn-change">Schimba adresa</button>
+                                    </form>
+                                    <form action="http://localhost:3000/change-wallet" method="post"
+                                        class="change-form" id="change-wallet-form" name="change-wallet-form">
+                                        <div class="change-block">
+                                            <label for="change-wallet">Portofel digital</label>
+                                            <input id="change-wallet" name="change-wallet" type="text" required>
+                                        </div>
+                                        <button type="submit" id="btn-submit-change-wallet" name="btn-submit-change-wallet"
+                                            class="btn-change">Schimba adresa portofelului</button>
+                                    </form>
+                                    <form action="http://localhost:3000/change-password" method="post"
+                                        class="change-form" id="change-password-form" name="change-password-form">
+                                        <div class="change-block">
+                                            <label for="change-old-password">Parola veche</label>
+                                            <input id="change-old-password" name="change-old-password" type="text" required>
+                                        </div>
+                                        <div class="change-block">
+                                            <label for="change-new-password">Parola noua</label>
+                                            <input id="change-new-password" name="change-new-password" type="text" required>
+                                        </div>
+                                        <div class="change-block">
+                                            <label for="change-repeat-password">Repeta parola noua</label>
+                                            <input id="change-repeat-password" name="change-repeat-password" type="text" required>
+                                        </div>
+                                        <button type="submit" id="btn-submit-change-password" name="btn-submit-change-password"
+                                            class="btn-change">Schimba parola</button>
+                                    </form>
+
             </div>
         </div>
     </div>

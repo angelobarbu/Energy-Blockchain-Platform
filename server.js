@@ -159,7 +159,111 @@ app.get('/contracts', async (req, res) => {
 })
 
 app.get('/account', async (req, res) => {
-    return res.render('account')
+    try {
+        var account = await database.collection('users').findOne({ _id: userId })
+    } catch (error) {
+        console.log(error)
+    }
+
+    console.log(account)
+
+    return res.render('account', { account: account })
+})
+
+app.post('/change-name' , async (req, res) => {
+    try {
+        var user = await database.collection('users').findOne({ _id: userId })
+        var newUser = user;
+        newUser['name'] = req.body['change-name']
+        try {
+            await database.collection('users').updateOne({ _id: userId }, { $set: newUser })
+        } catch (error) {
+            console.log(error)
+        }
+    } catch (error) {
+        console.log(error)
+    }
+    return res.render('account', { account: newUser })
+})
+
+app.post('/change-email' , async (req, res) => {
+    try {
+        var user = await database.collection('users').findOne({ _id: userId })
+        var newUser = user;
+        newUser['email'] = req.body['change-email']
+        try {
+            await database.collection('users').updateOne({ _id: userId }, { $set: newUser })
+        } catch (error) {
+            console.log(error)
+        }
+    } catch (error) {
+        console.log(error)
+    }
+    return res.render('account', { account: newUser })
+})
+
+app.post('/change-phone' , async (req, res) => {
+    try {
+        var user = await database.collection('users').findOne({ _id: userId })
+        var newUser = user;
+        newUser['phone'] = req.body['change-phone']
+        try {
+            await database.collection('users').updateOne({ _id: userId }, { $set: newUser })
+        } catch (error) {
+            console.log(error)
+        }
+    } catch (error) {
+        console.log(error)
+    }
+    return res.render('account', { account: newUser })
+})
+
+app.post('/change-address' , async (req, res) => {
+    try {
+        var user = await database.collection('users').findOne({ _id: userId })
+        var newUser = user;
+        newUser['address'] = req.body['change-address']
+        try {
+            await database.collection('users').updateOne({ _id: userId }, { $set: newUser })
+        } catch (error) {
+            console.log(error)
+        }
+    } catch (error) {
+        console.log(error)
+    }
+    return res.render('account', { account: newUser })
+})
+
+app.post('/change-wallet' , async (req, res) => {
+    try {
+        var user = await database.collection('users').findOne({ _id: userId })
+        var newUser = user;
+        newUser['wallet_address'] = req.body['change-wallet']
+        try {
+            await database.collection('users').updateOne({ _id: userId }, { $set: newUser })
+        } catch (error) {
+            console.log(error)
+        }
+    } catch (error) {
+        console.log(error)
+    }
+    return res.render('account', { account: newUser })
+})
+
+app.post('/change-password' , async (req, res) => {
+    try {
+        var user = await database.collection('users').findOne({ _id: userId })
+        var newUser = user;
+        newUser['name'] = req.body['change-name']
+        try {
+            await database.collection('users').updateOne({ _id: userId }, { $set: newUser })
+        } catch (error) {
+            console.log(error)
+        }
+    } catch (error) {
+        console.log(error)
+    }
+    return res.render('account', { account: newUser })
 })
 
 // Afisarea tranzactiilor de vanzare si cumparare din baza de date
