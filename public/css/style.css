@@ -290,11 +290,11 @@ body {
   clip: rect(0 0 0 0);
 }
 
-.change-block {
+.update-block {
   text-align: left;
 }
 
-.change-block label {
+.update-block label {
   display: inline-flex;
   font-size: 16px;
   color: black;
@@ -305,10 +305,10 @@ body {
   font-size: 14px;
 }
 
-.change-block input {
+.update-block input {
   width: 12%;
   height: 3%;
-  margin-left: 15px;
+  margin-left: auto;
   padding-right: 15px;
   padding-left: 15px;
   font-size: 16px;
@@ -342,24 +342,24 @@ body {
   border-radius: 2px;
 }
 
-.btn-change {
-  color: #fbfdff;
-  background: #38598b;
+.btn-update {
+  color: #38598b;
+  background: #DDE6ED;
   transform: translateX(-30%);
   padding: 3px;
 }
 
-.btn-change:hover {
+.btn-update:hover {
   color: #fff;
   background: #B0C4DE;
 }
 
-.change-name-form [type='submit'] {
+.update-form [type='submit'] {
   opacity: 1;
   display: block;
   min-width: 120px;
-  margin: 30px auto 10px;
-  font-size: 18px;
+  margin-left: auto;
+  font-size: 14px;
   line-height: 40px;
   border-radius: 25px;
   border: none;

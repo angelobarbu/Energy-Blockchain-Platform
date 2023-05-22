@@ -158,23 +158,25 @@ app.get('/contracts', async (req, res) => {
 
 })
 
+// Afisare date cont utilizator
 app.get('/account', async (req, res) => {
     try {
-        var account = await database.collection('users').findOne({ _id: userId })
+        var user = await database.collection('users').findOne({ _id: userId })
     } catch (error) {
         console.log(error)
     }
 
-    console.log(account)
+    user['password_status'] = 'OK'
 
-    return res.render('account', { account: account })
+    return res.render('account', { account: user })
 })
 
-app.post('/change-name' , async (req, res) => {
+// Actualizare nume
+app.post('/update-name' , async (req, res) => {
     try {
         var user = await database.collection('users').findOne({ _id: userId })
         var newUser = user;
-        newUser['name'] = req.body['change-name']
+        newUser['name'] = req.body['update-name']
         try {
             await database.collection('users').updateOne({ _id: userId }, { $set: newUser })
         } catch (error) {
@@ -183,14 +185,16 @@ app.post('/change-name' , async (req, res) => {
     } catch (error) {
         console.log(error)
     }
+    user['password_status'] = 'OK'
     return res.render('account', { account: newUser })
 })
 
-app.post('/change-email' , async (req, res) => {
+// Actualizare email
+app.post('/update-email' , async (req, res) => {
     try {
         var user = await database.collection('users').findOne({ _id: userId })
         var newUser = user;
-        newUser['email'] = req.body['change-email']
+        newUser['email'] = req.body['update-email']
         try {
             await database.collection('users').updateOne({ _id: userId }, { $set: newUser })
         } catch (error) {
@@ -199,14 +203,16 @@ app.post('/change-email' , async (req, res) => {
     } catch (error) {
         console.log(error)
     }
+    user['password_status'] = 'OK'
     return res.render('account', { account: newUser })
 })
 
-app.post('/change-phone' , async (req, res) => {
+// Actualizare telefon
+app.post('/update-phone' , async (req, res) => {
     try {
         var user = await database.collection('users').findOne({ _id: userId })
         var newUser = user;
-        newUser['phone'] = req.body['change-phone']
+        newUser['phone'] = req.body['update-phone']
         try {
             await database.collection('users').updateOne({ _id: userId }, { $set: newUser })
         } catch (error) {
@@ -215,14 +221,16 @@ app.post('/change-phone' , async (req, res) => {
     } catch (error) {
         console.log(error)
     }
+    user['password_status'] = 'OK'
     return res.render('account', { account: newUser })
 })
 
-app.post('/change-address' , async (req, res) => {
+// Actualizare adresa
+app.post('/update-address' , async (req, res) => {
     try {
         var user = await database.collection('users').findOne({ _id: userId })
         var newUser = user;
-        newUser['address'] = req.body['change-address']
+        newUser['address'] = req.body['update-address']
         try {
             await database.collection('users').updateOne({ _id: userId }, { $set: newUser })
         } catch (error) {
@@ -231,14 +239,16 @@ app.post('/change-address' , async (req, res) => {
     } catch (error) {
         console.log(error)
     }
+    user['password_status'] = 'OK'
     return res.render('account', { account: newUser })
 })
 
-app.post('/change-wallet' , async (req, res) => {
+// Actualizare portofel digital
+app.post('/update-wallet' , async (req, res) => {
     try {
         var user = await database.collection('users').findOne({ _id: userId })
         var newUser = user;
-        newUser['wallet_address'] = req.body['change-wallet']
+        newUser['wallet_address'] = req.body['update-wallet']
         try {
             await database.collection('users').updateOne({ _id: userId }, { $set: newUser })
         } catch (error) {
@@ -247,22 +257,30 @@ app.post('/change-wallet' , async (req, res) => {
     } catch (error) {
         console.log(error)
     }
+    user['password_status'] = 'OK'
     return res.render('account', { account: newUser })
 })
 
-app.post('/change-password' , async (req, res) => {
+// Actualizare parola
+app.post('/update-password' , async (req, res) => {
     try {
         var user = await database.collection('users').findOne({ _id: userId })
         var newUser = user;
-        newUser['name'] = req.body['change-name']
-        try {
-            await database.collection('users').updateOne({ _id: userId }, { $set: newUser })
-        } catch (error) {
-            console.log(error)
+        if (req.body['update-old-password'] == user['password'] && req.body['update-new-password'] == req.body['update-confirm-password']) {
+            newUser['password'] = req.body['update-new-password']
+            try {
+                await database.collection('users').updateOne({ _id: userId }, { $set: newUser })
+            } catch (error) {
+                console.log(error)
+            }
+            user['password_status'] = 'Parola schimbata cu succes'
+        } else {
+            user['password_status'] = 'Parolele nu se potrivesc'
         }
     } catch (error) {
         console.log(error)
     }
+
     return res.render('account', { account: newUser })
 })
 
