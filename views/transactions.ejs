@@ -15,12 +15,13 @@
                 <a class="list-group-item list-group-item-action p-3" href="#!">Tranzactiile mele</a>
                 <a class="list-group-item list-group-item-action p-3" href="contracts">Contractele mele</a>
                 <a class="list-group-item list-group-item-action p-3" href="account">Contul meu</a>
+                <a class="list-group-item list-group-item-action p-3" href="index.html">Delogare</a>
             </div>
         </div>
         <div id="page-content-wrapper">
             <div class="container-fluid">
-                <h1 class="mt-4">Tranzactiile mele</h1> <br>
-                <h2 class="mt-1">Tranzactii incheiate</h2>
+                <h1>Tranzactiile mele</h1> <br>
+                <h2>Tranzactii incheiate</h2>
                 <table class="closed-transactions-table">
                     <tr>
                         <th scope="col">Tip</th>
@@ -40,6 +41,24 @@
                         <td><%= transaction.delivery_date %></td>
                         <td><%= transaction.buyer_seller_username %></td>
                         <td><%= transaction.transaction_hash %></td>
+                    </tr>
+                    <% }) %>
+                </table>
+
+                <h2 class="mt-1">Tranzactii deschise</h2>
+                <table class="closed-transactions-table">
+                    <tr>
+                        <th scope="col">Resursa</th>
+                        <th scope="col">Pret</th>
+                        <th scope="col">Cantitate</th>
+                        <th scope="col"></th>
+                    </tr>
+                    <% open_transactions.forEach(function(transaction) { %>
+                    <tr>
+                        <td><%= transaction.asset_description %></td>
+                        <td><%= transaction.price %></td>
+                        <td><%= transaction.quantity %></td>
+                        <td><button class="button-45" role="button">Sterge</button></td>
                     </tr>
                     <% }) %>
                 </table>

@@ -96,7 +96,35 @@ app.post('/login', async (req, res) => {
             console.log("Login successful")
             username = user['username']
             userId = user['_id']
-            return res.render('home')
+            try {
+                var open_transactions = await database.collection('transactions').find({ closed: 0, seller_id: { $ne: userId } }).toArray()
+            } catch (error) {
+                console.log(error)
+            }
+
+            console.log(open_transactions)
+
+            if (!open_transactions.length) {
+                open_transactions[0] = {
+                    asset_description: 'Nu exista tranzactii deschise'
+                }
+                return res.render('home', { open_transactions: open_transactions })
+            }
+
+            console.log(open_transactions)
+
+            for (var i = 0; i < open_transactions.length; i++) {
+                try {
+                    var seller_id = open_transactions[i]['seller_id']
+                    var seller = await database.collection('users').findOne({ _id: seller_id })
+                    var seller_username = seller['username']
+                } catch (error) {
+                    console.log(error)
+                }
+                open_transactions[i]['seller_username'] = seller_username
+            }
+
+            return res.render('home', { open_transactions: open_transactions })
         } else {
             console.log("Wrong password")
             return res.redirect('/login-fail.html')
@@ -108,8 +136,38 @@ app.post('/login', async (req, res) => {
 
 })
 
+// Afisare tranzactii deschise in prima pagina
 app.get('/home', async (req, res) => {
-    return res.render('home')
+    try {
+        var open_transactions = await database.collection('transactions').find({ closed: 0, seller_id: { $ne: userId } }).toArray()
+    } catch (error) {
+        console.log(error)
+    }
+
+    console.log(open_transactions)
+
+    if (!open_transactions.length) {
+        open_transactions[0] = {
+            asset_description: 'Nu exista tranzactii deschise'
+        }
+        return res.render('home', { open_transactions: open_transactions })
+    }
+
+    console.log(open_transactions)
+
+    for (var i = 0; i < open_transactions.length; i++) {
+        try {
+            var seller_id = open_transactions[i]['seller_id']
+            var seller = await database.collection('users').findOne({ _id: seller_id })
+            var seller_username = seller['username']
+        } catch (error) {
+            console.log(error)
+        }
+        open_transactions[i]['seller_username'] = seller_username
+    }
+
+    return res.render('home', { open_transactions: open_transactions })
+
 })
 
 
@@ -172,7 +230,7 @@ app.get('/account', async (req, res) => {
 })
 
 // Actualizare nume
-app.post('/update-name' , async (req, res) => {
+app.post('/update-name', async (req, res) => {
     try {
         var user = await database.collection('users').findOne({ _id: userId })
         var newUser = user;
@@ -190,7 +248,7 @@ app.post('/update-name' , async (req, res) => {
 })
 
 // Actualizare email
-app.post('/update-email' , async (req, res) => {
+app.post('/update-email', async (req, res) => {
     try {
         var user = await database.collection('users').findOne({ _id: userId })
         var newUser = user;
@@ -208,7 +266,7 @@ app.post('/update-email' , async (req, res) => {
 })
 
 // Actualizare telefon
-app.post('/update-phone' , async (req, res) => {
+app.post('/update-phone', async (req, res) => {
     try {
         var user = await database.collection('users').findOne({ _id: userId })
         var newUser = user;
@@ -226,7 +284,7 @@ app.post('/update-phone' , async (req, res) => {
 })
 
 // Actualizare adresa
-app.post('/update-address' , async (req, res) => {
+app.post('/update-address', async (req, res) => {
     try {
         var user = await database.collection('users').findOne({ _id: userId })
         var newUser = user;
@@ -244,7 +302,7 @@ app.post('/update-address' , async (req, res) => {
 })
 
 // Actualizare portofel digital
-app.post('/update-wallet' , async (req, res) => {
+app.post('/update-wallet', async (req, res) => {
     try {
         var user = await database.collection('users').findOne({ _id: userId })
         var newUser = user;
@@ -262,7 +320,7 @@ app.post('/update-wallet' , async (req, res) => {
 })
 
 // Actualizare parola
-app.post('/update-password' , async (req, res) => {
+app.post('/update-password', async (req, res) => {
     try {
         var user = await database.collection('users').findOne({ _id: userId })
         var newUser = user;
@@ -282,6 +340,31 @@ app.post('/update-password' , async (req, res) => {
     }
 
     return res.render('account', { account: newUser })
+})
+
+// Creare tranzactie
+app.post('/create-transaction', async (req, res) => {
+    var asset_description = req.body['transaction-asset']
+    var asset_price = req.body['transaction-price']
+    var asset_quantity = req.body['transaction-quantity']
+
+    var data = {
+        "seller_id": userId,
+        "price": parseFloat(asset_price),
+        "quantity": parseFloat(asset_quantity),
+        "asset_description": asset_description,
+        "delivery_date": "",
+        "closed": 0,
+        "buyer_id": "",
+        "transaction_hash": ""
+    }
+
+    await database.collection('transactions').insertOne(data, (err, collection) => {
+        if (err)
+            throw err
+        console.log("Record inserted successfully")
+    })
+    return res.render('home')
 })
 
 // Afisarea tranzactiilor de vanzare si cumparare din baza de date
@@ -323,24 +406,41 @@ app.get('/transactions', async (req, res) => {
         buying_transactions[i]['type'] = 'Cumparare'
     }
 
+    try {
+        var open_transactions = await database.collection('transactions').find({ seller_id: userId, closed: 0 }).toArray()
+    } catch (error) {
+        console.log(error)
+    }
+
+    console.log(userId._id)
+    console.log(userId)
+    console.log(open_transactions)
+
+    if (!open_transactions.length) {
+        open_transactions[0] = {
+            'asset_description': 'Nu exista tranzactii deschise'
+        }
+        console.log('Nu exista tranzactii deschise')
+    }
+
     // Trimitere la frontend a tranzactiilor de vanzare si cumparare
     if (transactions.length && buying_transactions.length) {
         for (var i = 0; i < buying_transactions.length; i++) {
             transactions[transactions.length + 1] = buying_transactions[i]
         }
         console.log('Ambele')
-        return res.render('transactions', { transactions: transactions })
+        return res.render('transactions', { transactions: transactions, open_transactions: open_transactions })
     } else if (transactions.length && !buying_transactions.length) {
         console.log('Vanzare')
-        return res.render('transactions', { transactions: transactions })
+        return res.render('transactions', { transactions: transactions, open_transactions: open_transactions })
     } else if (!transactions.length && buying_transactions.length) {
         console.log('Cumparare')
-        return res.render('transactions', { transactions: buying_transactions })
+        return res.render('transactions', { transactions: buying_transactions, open_transactions: open_transactions })
     } else if (!transactions.length && !buying_transactions.length) {
         console.log('Nu exista tranzactii incheiate')
         transactions[0] = {
             'type': 'Nu exista tranzactii incheiate'
         }
-        return res.render('transactions', { transactions: transactions })
+        return res.render('transactions', { transactions: transactions, open_transactions: open_transactions })
     }
 })

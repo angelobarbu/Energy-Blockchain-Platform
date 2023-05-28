@@ -15,12 +15,56 @@
                 <a class="list-group-item list-group-item-action p-3" href="transactions">Tranzactiile mele</a>
                 <a class="list-group-item list-group-item-action p-3" href="contracts">Contractele mele</a>
                 <a class="list-group-item list-group-item-action p-3" href="account">Contul meu</a>
+                <a class="list-group-item list-group-item-action p-3" href="index.html">Delogare</a>
             </div>
         </div>
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <h1 class="mt-4">Home</h1>
-                
+                <h2>Tranzactii deschise</h2>
+                <table class="closed-transactions-table">
+                    <tr>
+                        <th scope="col">Resursa</th>
+                        <th scope="col">Pret</th>
+                        <th scope="col">Cantitate</th>
+                        <th scope="col">Vanzator</th>
+                    </tr>
+                    <% open_transactions.forEach(function(transaction) { %>
+                        <tr>
+                            <td><%= transaction.asset_description %></td>
+                            <td><%= transaction.price %></td>
+                            <td><%= transaction.quantity %></td>
+                            <td><%= transaction.seller_username %></td>
+                        </tr>
+                        <% }) %>
+                </table>
+                    <a href="#popup-box"><button class="button-3" role="button">+ Adauga tranzactie</button></a>              
+                    <div id="popup-box" class="modal">
+                        <div class="content">
+                            <form action="http://localhost:3000/create-transaction" method="post" class="form-transaction" id="form-transaction" name="form-transaction">
+                                <fieldset>
+                                    <legend>Introduceti datele tranzactiei.</legend>
+                                    <div class="transaction-block">
+                                        <label for="transaction-asset">Resursa</label>
+                                        <input id="transaction-asset" name="transaction-asset" type="text" required>
+                                    </div>
+                                    <div class="transaction-block">
+                                        <label for="transaction-price">Pret</label>
+                                        <input id="transaction-price" name="transaction-price" type="text" required>
+                                    </div>
+                                    <div class="transaction-block">
+                                        <label for="transaction-quantity">Cantitate</label>
+                                        <input id="transaction-quantity" name="transaction-quantity" type="text" required>
+                                    </div>
+                                </fieldset>
+                                <button type="submit" id="btn-transaction" name="btn-transaction" class="button btn-login">Creeaza tranzactie</button>
+                            </form>
+                            <a href="#"
+                               class="box-close">
+                                ×
+                            </a>
+                        </div>
+                    </div>
             </div>
         </div>
     </div>
