@@ -7,6 +7,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
+const { spawn } = require('child_process')
 
 const app = express()
 
@@ -15,6 +16,8 @@ app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.set('view engine', 'ejs')
+
+
 
 // Rularea serverului pe portul 3000
 app.get('/', (req, res) => {
@@ -25,6 +28,8 @@ app.get('/', (req, res) => {
 }).listen(3000)
 
 console.log('Server is running on port 3000')
+
+
 
 // Conectarea la baza de date MongoDB
 mongoose.connect('mongodb+srv://angelobarbu:5jnlegmqWryv6qtF@platformdb.dh4ypq7.mongodb.net/', {
@@ -38,6 +43,8 @@ mongoose.connect('mongodb+srv://angelobarbu:5jnlegmqWryv6qtF@platformdb.dh4ypq7.
 })
 
 var database = mongoose.connection
+
+
 
 // Adaugarea utilizatorului in baza de date in urma inregistrarii
 app.post('/signup', async (req, res) => {
@@ -77,6 +84,8 @@ app.post('/signup', async (req, res) => {
     return res.redirect('/signup-success.html')
 })
 
+
+
 var username
 var userId
 
@@ -96,35 +105,7 @@ app.post('/login', async (req, res) => {
             console.log("Login successful")
             username = user['username']
             userId = user['_id']
-            try {
-                var open_transactions = await database.collection('transactions').find({ closed: 0, seller_id: { $ne: userId } }).toArray()
-            } catch (error) {
-                console.log(error)
-            }
-
-            console.log(open_transactions)
-
-            if (!open_transactions.length) {
-                open_transactions[0] = {
-                    asset_description: 'Nu exista tranzactii deschise'
-                }
-                return res.render('home', { open_transactions: open_transactions })
-            }
-
-            console.log(open_transactions)
-
-            for (var i = 0; i < open_transactions.length; i++) {
-                try {
-                    var seller_id = open_transactions[i]['seller_id']
-                    var seller = await database.collection('users').findOne({ _id: seller_id })
-                    var seller_username = seller['username']
-                } catch (error) {
-                    console.log(error)
-                }
-                open_transactions[i]['seller_username'] = seller_username
-            }
-
-            return res.render('home', { open_transactions: open_transactions })
+            return res.redirect('/home')
         } else {
             console.log("Wrong password")
             return res.redirect('/login-fail.html')
@@ -136,7 +117,9 @@ app.post('/login', async (req, res) => {
 
 })
 
-// Afisare tranzactii deschise in prima pagina
+
+
+// Afisare tranzactii globale deschise in prima pagina
 app.get('/home', async (req, res) => {
     try {
         var open_transactions = await database.collection('transactions').find({ closed: 0, seller_id: { $ne: userId } }).toArray()
@@ -144,7 +127,7 @@ app.get('/home', async (req, res) => {
         console.log(error)
     }
 
-    console.log(open_transactions)
+    //console.log(open_transactions)
 
     if (!open_transactions.length) {
         open_transactions[0] = {
@@ -153,7 +136,7 @@ app.get('/home', async (req, res) => {
         return res.render('home', { open_transactions: open_transactions })
     }
 
-    console.log(open_transactions)
+    //console.log(open_transactions)
 
     for (var i = 0; i < open_transactions.length; i++) {
         try {
@@ -169,6 +152,7 @@ app.get('/home', async (req, res) => {
     return res.render('home', { open_transactions: open_transactions })
 
 })
+
 
 
 // Afisarea contractelor din baza de date pentru utilizatorul autentificat
@@ -216,6 +200,8 @@ app.get('/contracts', async (req, res) => {
 
 })
 
+
+
 // Afisare date cont utilizator
 app.get('/account', async (req, res) => {
     try {
@@ -228,6 +214,8 @@ app.get('/account', async (req, res) => {
 
     return res.render('account', { account: user })
 })
+
+
 
 // Actualizare nume
 app.post('/update-name', async (req, res) => {
@@ -247,6 +235,8 @@ app.post('/update-name', async (req, res) => {
     return res.render('account', { account: newUser })
 })
 
+
+
 // Actualizare email
 app.post('/update-email', async (req, res) => {
     try {
@@ -264,6 +254,8 @@ app.post('/update-email', async (req, res) => {
     user['password_status'] = 'OK'
     return res.render('account', { account: newUser })
 })
+
+
 
 // Actualizare telefon
 app.post('/update-phone', async (req, res) => {
@@ -283,6 +275,8 @@ app.post('/update-phone', async (req, res) => {
     return res.render('account', { account: newUser })
 })
 
+
+
 // Actualizare adresa
 app.post('/update-address', async (req, res) => {
     try {
@@ -301,6 +295,8 @@ app.post('/update-address', async (req, res) => {
     return res.render('account', { account: newUser })
 })
 
+
+
 // Actualizare portofel digital
 app.post('/update-wallet', async (req, res) => {
     try {
@@ -318,6 +314,8 @@ app.post('/update-wallet', async (req, res) => {
     user['password_status'] = 'OK'
     return res.render('account', { account: newUser })
 })
+
+
 
 // Actualizare parola
 app.post('/update-password', async (req, res) => {
@@ -342,6 +340,8 @@ app.post('/update-password', async (req, res) => {
     return res.render('account', { account: newUser })
 })
 
+
+
 // Creare tranzactie
 app.post('/create-transaction', async (req, res) => {
     var asset_description = req.body['transaction-asset']
@@ -364,8 +364,10 @@ app.post('/create-transaction', async (req, res) => {
             throw err
         console.log("Record inserted successfully")
     })
-    return res.render('home')
+    return res.redirect('/transactions')
 })
+
+
 
 // Afisarea tranzactiilor de vanzare si cumparare din baza de date
 // pentru utilizatorul autentificat
@@ -406,41 +408,116 @@ app.get('/transactions', async (req, res) => {
         buying_transactions[i]['type'] = 'Cumparare'
     }
 
+    // Preluare tranzactii deschise
     try {
         var open_transactions = await database.collection('transactions').find({ seller_id: userId, closed: 0 }).toArray()
     } catch (error) {
         console.log(error)
     }
 
-    console.log(userId._id)
-    console.log(userId)
-    console.log(open_transactions)
-
     if (!open_transactions.length) {
         open_transactions[0] = {
-            'asset_description': 'Nu exista tranzactii deschise'
+            'asset_description': 'Nu exista tranzactii deschise',
+            // 'id': ''
         }
-        console.log('Nu exista tranzactii deschise')
-    }
+    } /* else {
+        for (var i = 0; i < open_transactions.length; i++) {
+            open_transactions[i]['id'] = open_transactions[i]['_id'].toString()
+        }
+    } */
+
+    console.log(open_transactions)
 
     // Trimitere la frontend a tranzactiilor de vanzare si cumparare
     if (transactions.length && buying_transactions.length) {
         for (var i = 0; i < buying_transactions.length; i++) {
             transactions[transactions.length + 1] = buying_transactions[i]
         }
-        console.log('Ambele')
         return res.render('transactions', { transactions: transactions, open_transactions: open_transactions })
     } else if (transactions.length && !buying_transactions.length) {
-        console.log('Vanzare')
         return res.render('transactions', { transactions: transactions, open_transactions: open_transactions })
     } else if (!transactions.length && buying_transactions.length) {
-        console.log('Cumparare')
         return res.render('transactions', { transactions: buying_transactions, open_transactions: open_transactions })
     } else if (!transactions.length && !buying_transactions.length) {
-        console.log('Nu exista tranzactii incheiate')
         transactions[0] = {
             'type': 'Nu exista tranzactii incheiate'
         }
         return res.render('transactions', { transactions: transactions, open_transactions: open_transactions })
     }
 })
+
+
+// Stergere tranzactie deschisa
+app.post('/delete-transaction', async (req, res) => {
+    var transaction_id = req.body['transaction-delete-id']
+
+    try {
+        await database.collection('transactions').deleteOne({ _id: new mongoose.Types.ObjectId(transaction_id) })
+    } catch (error) {
+        console.log(error)
+    }
+
+    return res.redirect('/transactions')
+})
+
+app.post('/emit-transaction', async (req, res) => {
+
+    var transaction_id = req.body['transaction-emit-id']
+    var seller_username = req.body['transaction-emit-seller-username']
+    try {
+        var transaction = await database.collection('transactions').findOne({ _id: new mongoose.Types.ObjectId(transaction_id) })
+    } catch (error) {
+        console.log(error)
+    }
+    try {
+        var seller = await database.collection('users').findOne({ username: seller_username })
+    } catch (error) {
+        console.log(error)
+    }
+    try {
+        var buyer = await database.collection('users').findOne({ _id: new mongoose.Types.ObjectId(userId) })
+    } catch (error) {
+        console.log(error)
+    }
+
+    var seller_wallet = seller['wallet_address']
+    var buyer_wallet = buyer['wallet_address']
+    var buyer_pk = req.body['transaction-emit-buyer-pk']
+    var price = transaction['price']
+    var quantity = transaction['quantity']
+    var asset_description = transaction['asset_description']
+
+    //console.log(buyer)
+    //console.log(transaction)
+    //console.log(seller)
+    //console.log(buyer_pk)
+    console.log(buyer_wallet + '  ' + buyer_pk + '  ' + seller_wallet + '  ' + price + '  ' + quantity + '  ' + asset_description)
+    
+    const transactionScript = __dirname + '/scripts/transaction.py'
+    console.log('\n' + transactionScript + '\n')
+    const transactionArgs = [buyer_wallet, buyer_pk, seller_wallet, price, quantity, asset_description]
+
+    const transactionProcess = spawn('/bin/python3.10', [transactionScript, ...transactionArgs])
+    
+    transactionProcess.stdout.on('data', (data) => {
+        console.log(`\nPython script output:\n ${data}\n`)
+    })
+
+    transactionProcess.on('error', (error) => {
+        console.error(`Error executing Python script: ${error}`)
+    })
+
+    transactionProcess.on('close', (code) => {
+        console.log(`\nPython script process exited with code ${code}\n`)
+    })
+
+    try {
+        await database.collection('transactions').deleteOne({ _id: new mongoose.Types.ObjectId(transaction_id) })
+    } catch (error) {
+        console.log(error)
+    }
+
+    return res.redirect('/home')
+
+
+}) 

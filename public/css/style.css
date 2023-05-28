@@ -4,8 +4,8 @@
   box-sizing: border-box;
 }
 
-/* CSS */
 .button-45 {
+  margin-bottom: 8px;
   align-items: center;
   background-color: #FFE7E7;
   background-position: 0 0;
@@ -15,11 +15,11 @@
   color: #D33A2C;
   cursor: pointer;
   display: flex;
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: 700;
   line-height: 30px;
   list-style: outside url(https://www.smashingmagazine.com/images/bullet.svg) none;
-  padding: 1px 6px;
+  padding-bottom: 0;
   text-align: left;
   text-decoration: none;
   text-shadow: none;
@@ -108,57 +108,57 @@ p {
   text-decoration: none;
   font-size: 30px;
 }
+
 .button-3 {
-  margin-left: 10%;
   margin-top: 2%;
-  appearance: none;
+  margin-bottom: 8px;
+  margin-left: 15%;
+  align-items: center;
   background-color: #2ea44f;
+  background-position: 0 0;
   border: 1px solid rgba(27, 31, 35, .15);
-  border-radius: 6px;
-  box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
+  border-radius: 11px;
   box-sizing: border-box;
   color: #fff;
   cursor: pointer;
-  display: inline-block;
-  font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 20px;
-  padding: 6px 16px;
-  position: relative;
-  text-align: center;
+  display: flex;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 30px;
+  list-style: outside url(https://www.smashingmagazine.com/images/bullet.svg) none;
+  padding-bottom: 0;
+  text-align: left;
   text-decoration: none;
+  text-shadow: none;
+  text-underline-offset: 1px;
+  transition: border .2s ease-in-out,box-shadow .2s ease-in-out;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  vertical-align: middle;
   white-space: nowrap;
+  word-break: break-word;
 }
 
-.button-3:focus:not(:focus-visible):not(.focus-visible) {
-  box-shadow: none;
-  outline: none;
+.button-3:active,
+.button-3:hover,
+.button-3:focus {
+  outline: 0;
+}
+
+
+.button-3:active {
+  background-color: #298e46;
+  box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
 }
 
 .button-3:hover {
   background-color: #2c974b;
 }
 
+.button-3:active:hover,
+.button-3:focus:hover,
 .button-3:focus {
   box-shadow: rgba(46, 164, 79, .4) 0 0 0 3px;
-  outline: none;
-}
-
-.button-3:disabled {
-  background-color: #94d3a2;
-  border-color: rgba(27, 31, 35, .1);
-  color: rgba(255, 255, 255, .8);
-  cursor: default;
-}
-
-.button-3:active {
-  background-color: #298e46;
-  box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
 }
 
 body {
@@ -293,13 +293,36 @@ body {
   transform: translateX(-90px);
 }
 
+.transaction-delete-block {
+  margin-bottom: 20px;
+}
+
+.transaction-delete-block label {
+  font-size: 14px;
+  color: #501717;
+}
+
+.transaction-delete-block input {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding-right: 15px;
+  padding-left: 15px;
+  font-size: 16px;
+  line-height: 40px;
+  color: #26362a;
+  background: #fcdada;
+  border: 1px solid #cddbef;
+  border-radius: 2px;
+}
+
 .transaction-block {
   margin-bottom: 20px;
 }
 
 .transaction-block label {
   font-size: 14px;
-  color: #B0C4DE;
+  color: #3d6d4f;
 }
 
 .transaction-block input {
@@ -310,10 +333,14 @@ body {
   padding-left: 15px;
   font-size: 16px;
   line-height: 40px;
-  color: #3b4465;
-  background: #B0C4DE;
+  color: #26362a;
+  background: #dafce7;
   border: 1px solid #cddbef;
   border-radius: 2px;
+}
+
+.invisible-block {
+  display: none;
 }
 
 .underline {

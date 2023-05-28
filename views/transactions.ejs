@@ -53,14 +53,47 @@
                         <th scope="col">Cantitate</th>
                         <th scope="col"></th>
                     </tr>
-                    <% open_transactions.forEach(function(transaction) { %>
+                    <% for (let i = 0; i < open_transactions.length; i++) { %>
                     <tr>
-                        <td><%= transaction.asset_description %></td>
-                        <td><%= transaction.price %></td>
-                        <td><%= transaction.quantity %></td>
-                        <td><button class="button-45" role="button">Sterge</button></td>
+                        <td><%= open_transactions[i].asset_description %></td>
+                        <td><%= open_transactions[i].price %></td>
+                        <td><%= open_transactions[i].quantity %></td>
+                        <td><% if(open_transactions[i].asset_description != "Nu exista tranzactii deschise") { %>
+                            <a href="#popup-box-<%= i %>"><button class="button-45" role="button">Sterge</button></a>
+                            <div id="popup-box-<%= i %>" class="modal">
+                                <div class="content">
+                                    <form action="http://localhost:3000/delete-transaction" method="post" class="form-delete-transaction" id="form-delete-transaction" name="form-delete-transaction">
+                                        <fieldset>
+                                            <legend><b>Esti sigur ca vrei sa stergi tranzactia:</b></legend>
+                                            <div class="transaction-delete-block">
+                                                <label for="transaction-delete-asset">Resursa</label>
+                                                <input id="transaction-delete-asset" name="transaction-delete-asset" type="text" value="<%= open_transactions[i].asset_description %>" disabled>
+                                            </div>
+                                            <div class="transaction-delete-block">
+                                                <label for="transaction-delete-price">Pret</label>
+                                                <input id="transaction-delete-price" name="transaction-delete-price" type="text" value="<%= open_transactions[i].price %>" disabled>
+                                            </div>
+                                            <div class="transaction-delete-block">
+                                                <label for="transaction-delete-quantity">Cantitate</label>
+                                                <input id="transaction-delete-quantity" name="transaction-delete-quantity" type="text" value="<%= open_transactions[i].quantity %>" disabled>
+                                            </div>
+                                            <div class="invisible-block">
+                                                <label for="transaction-delete-id">ID</label>
+                                                <input id="transaction-delete-id" name="transaction-delete-id" type="text" value="<%= open_transactions[i]._id %>">
+                                            </div>
+                                        </fieldset>
+                                        <button type="submit" id="btn-delete-transaction" name="btn-delete-transaction" class="button-45">Sterge tranzactie</button>
+                                    </form>
+                                    <a href="#"
+                                       class="box-close">
+                                        ×
+                                    </a>
+                                </div>
+                            </div>
+                            <% } %>
+                        </td>
                     </tr>
-                    <% }) %>
+                    <% } %>
                 </table>
 
             </div>

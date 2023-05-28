@@ -21,29 +21,77 @@
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <h1 class="mt-4">Home</h1>
-                <h2>Tranzactii deschise</h2>
+                <h2>Tranzactii globale deschise</h2>
                 <table class="closed-transactions-table">
                     <tr>
                         <th scope="col">Resursa</th>
                         <th scope="col">Pret</th>
                         <th scope="col">Cantitate</th>
                         <th scope="col">Vanzator</th>
+                        <th scope="col"></th>
                     </tr>
-                    <% open_transactions.forEach(function(transaction) { %>
+                    <% for (let i = 0; i < open_transactions.length; i++) { %>
                         <tr>
-                            <td><%= transaction.asset_description %></td>
-                            <td><%= transaction.price %></td>
-                            <td><%= transaction.quantity %></td>
-                            <td><%= transaction.seller_username %></td>
+                            <td><%= open_transactions[i].asset_description %></td>
+                            <td><%= open_transactions[i].price %></td>
+                            <td><%= open_transactions[i].quantity %></td>
+                            <td><%= open_transactions[i].seller_username %></td>
+                            <td><% if(open_transactions[i].asset_description != "Nu exista tranzactii deschise") { %>
+                                <a href="#popup-emit-transaction-box-<%= i %>"><button class="button-3" role="button">Cumpara</button></a>
+                                <div id="popup-emit-transaction-box-<%= i %>" class="modal">
+                                    <div class="content">
+                                        <form action="http://localhost:3000/emit-transaction" method="post" class="form-delete-transaction" id="form-delete-transaction" name="form-delete-transaction">
+                                            <fieldset>
+                                                <legend><b>Esti sigur ca vrei sa cumperi:</b></legend>
+                                                <div class="transaction-block">
+                                                    <label for="transaction-emit-asset">Resursa</label>
+                                                    <input id="transaction-emit-asset" name="transaction-emit-asset" type="text" value="<%= open_transactions[i].asset_description %>" disabled>
+                                                </div>
+                                                <div class="transaction-block">
+                                                    <label for="transaction-emit-price">Pret</label>
+                                                    <input id="transaction-emit-price" name="transaction-emit-price" type="text" value="<%= open_transactions[i].price %>" disabled>
+                                                </div>
+                                                <div class="transaction-block">
+                                                    <label for="transaction-emit-quantity">Cantitate</label>
+                                                    <input id="transaction-emit-quantity" name="transaction-emit-quantity" type="text" value="<%= open_transactions[i].quantity %>" disabled>
+                                                </div>
+                                                <div class="transaction-block">
+                                                    <label for="transaction-emit-visible-seller">Vanzator</label>
+                                                    <input id="transaction-emit-visible-seller" name="transaction-emit-visible-seller" type="text" value="<%= open_transactions[i].seller_username %>" disabled>
+                                                </div>
+                                                <div class="transaction-block">
+                                                    <label for="transaction-emit-buyer-pk">Pentru confirmare, introdu cheia privata a portofelului digital</label>
+                                                    <input id="transaction-emit-buyer-pk" name="transaction-emit-buyer-pk" type="text">
+                                                </div>
+                                                <div class="invisible-block">
+                                                    <label for="transaction-emit-id">ID</label>
+                                                    <input id="transaction-emit-id" name="transaction-emit-id" type="text" value="<%= open_transactions[i]._id %>">
+                                                </div>
+                                                
+                                                <div class="invisible-block">
+                                                    <label for="transaction-emit-seller-username">Vanzator</label>
+                                                    <input id="transaction-emit-seller-username" name="transaction-emit-seller-username" type="text" value="<%= open_transactions[i].seller_username %>">
+                                                </div>
+                                            </fieldset>
+                                            <button type="submit" id="btn-emit-transaction" name="btn-emit-transaction" class="button-3">Cumpara resursa</button>
+                                        </form>
+                                        <a href="#"
+                                           class="box-close">
+                                            ×
+                                        </a>
+                                    </div>
+                                </div>
+                                <% } %>
+                            </td>
                         </tr>
-                        <% }) %>
+                        <% } %>
                 </table>
-                    <a href="#popup-box"><button class="button-3" role="button">+ Adauga tranzactie</button></a>              
-                    <div id="popup-box" class="modal">
+                    <a href="#popup-create-transaction-box"><button class="button-3" role="button">+ Adauga tranzactie</button></a>              
+                    <div id="popup-create-transaction-box" class="modal">
                         <div class="content">
                             <form action="http://localhost:3000/create-transaction" method="post" class="form-transaction" id="form-transaction" name="form-transaction">
                                 <fieldset>
-                                    <legend>Introduceti datele tranzactiei.</legend>
+                                    <legend><b>Introduceti datele tranzactiei</b></legend>
                                     <div class="transaction-block">
                                         <label for="transaction-asset">Resursa</label>
                                         <input id="transaction-asset" name="transaction-asset" type="text" required>
@@ -57,7 +105,7 @@
                                         <input id="transaction-quantity" name="transaction-quantity" type="text" required>
                                     </div>
                                 </fieldset>
-                                <button type="submit" id="btn-transaction" name="btn-transaction" class="button btn-login">Creeaza tranzactie</button>
+                                <button type="submit" id="btn-transaction" name="btn-transaction" class="button-3">Creeaza tranzactie</button>
                             </form>
                             <a href="#"
                                class="box-close">

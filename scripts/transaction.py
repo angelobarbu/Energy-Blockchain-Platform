@@ -11,15 +11,27 @@ from pathlib import Path
 import os
 from datetime import datetime
 import pymongo
+import sys
+
+args = sys.argv[1:]
 
 # Hardcodarea parametrilor pentru declansarea tranzactiei si emiterea contractului smart
-buyer_wallet = '0x66B294F65b4b0fCc4B90a9f3C0B70f510D122e94'
-buyer_pk = '0xceb23e34f474b633f3afd17a34e960ab7e154b2b11f346a01ce6be802c1e2d03'
-seller_wallet = '0x2d355e1C5fE5Cb0c47f4BfA46964f65Ee49545be'
-price = 0.82
-quantity = 45
+# buyer_wallet = '0x66B294F65b4b0fCc4B90a9f3C0B70f510D122e94'
+# buyer_pk = '0xceb23e34f474b633f3afd17a34e960ab7e154b2b11f346a01ce6be802c1e2d03'
+# seller_wallet = '0x2d355e1C5fE5Cb0c47f4BfA46964f65Ee49545be'
+# price = 0.82
+# quantity = 45
+# asset_description = 'GNL'
+
+# Primirea argumentelor de la server
+buyer_wallet = args[0]
+buyer_pk = args[1]
+seller_wallet = args[2]
+price = float(args[3])
+quantity = float(args[4])
+asset_description = args[5]
+
 delivery_date = (datetime.now()).strftime("%Y/%m/%d %H:%M:%S")
-asset_description = 'GNL'
 
 # Cumparator:'0x66B294F65b4b0fCc4B90a9f3C0B70f510D122e94''0xceb23e34f474b633f3afd17a34e960ab7e154b2b11f346a01ce6be802c1e2d03'
 # Vanzator: '0x50A7cf135083f3F90566eeF565b345a95B326C54'
