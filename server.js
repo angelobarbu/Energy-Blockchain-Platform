@@ -492,13 +492,13 @@ app.post('/emit-transaction', async (req, res) => {
     //console.log(seller)
     //console.log(buyer_pk)
     console.log(buyer_wallet + '  ' + buyer_pk + '  ' + seller_wallet + '  ' + price + '  ' + quantity + '  ' + asset_description)
-    
+
     const transactionScript = __dirname + '/scripts/transaction.py'
     console.log('\n' + transactionScript + '\n')
     const transactionArgs = [buyer_wallet, buyer_pk, seller_wallet, price, quantity, asset_description]
 
     const transactionProcess = spawn('/bin/python3.10', [transactionScript, ...transactionArgs])
-    
+
     transactionProcess.stdout.on('data', (data) => {
         console.log(`\nPython script output:\n ${data}\n`)
     })
@@ -507,17 +507,29 @@ app.post('/emit-transaction', async (req, res) => {
         console.error(`Error executing Python script: ${error}`)
     })
 
-    transactionProcess.on('close', (code) => {
+    transactionProcess.on('close', async (code) => {
         console.log(`\nPython script process exited with code ${code}\n`)
+        if (code === 0) {
+            try {
+                await database.collection('transactions').deleteOne({ _id: new mongoose.Types.ObjectId(transaction_id) })
+            } catch (error) {
+                console.log(error)
+            }
+        
+        }
+        
+        return res.redirect('/home')
+        
     })
 
+    /* 
     try {
         await database.collection('transactions').deleteOne({ _id: new mongoose.Types.ObjectId(transaction_id) })
     } catch (error) {
         console.log(error)
     }
 
-    return res.redirect('/home')
+    return res.redirect('/home') */
 
 
 }) 
