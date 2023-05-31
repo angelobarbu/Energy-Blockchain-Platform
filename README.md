@@ -1,4 +1,4 @@
-# Sistem blockchain pentru trasabilitatea și certificarea resurselor energetice
+# [RO]Sistem blockchain pentru trasabilitatea și certificarea resurselor energetice
 Retea locala Blockchain rulata cu ajutorul Ganache si suita Truffle pentru o platforma de tranzactionare, monitorizare si certificare a resurselor energetice. La nivel de backend, se utilizeaza libraria Web3.py pentru efectuarea tranzactiei si emiterea contractului Smart scris in limbajul de programare Solidity.
 Pentru frontend, au fost utilizate HTML, CSS si JavaScript(Node.js, Express), iar conectarea la baza de date a fost efectuata prin libraria de JS mongoose.
 
@@ -16,7 +16,7 @@ Serverul ruleaza pe localhost, port 3000.
 Blockchain-ul local este initializat cu ajutorul Ganache din suita Truffle, iar AppImage-ul poate fi descarcat de aici: https://github.com/trufflesuite/ganache-ui/releases/download/v2.7.1/ganache-2.7.1-linux-x86_64.AppImage
 Reteaua locala blockchain trebuie rulata pe localhost, port 7545.
 
-# Blockchain system for energy resources' tracking and certification
+# [EN]Blockchain system for energy resources' tracking and certification
 Local Blockchain network that runs using Ganache and Truffle suite for energy resources' trade, tracking and certification.
 Backend wise, Web3.py is used to trigger the transaction and deploy the smart contract written using Solidity programming language.
 Frontend wise, HTML, CSS and JavaScript(Node.js, Express) were used and they were connected using mongoose JS library.
@@ -34,3 +34,10 @@ The server runs on localhost, port 3000.
 
 The local blockchain network is initialised using Ganache and Truffle suite and the AppImage can be downloaded from here: https://github.com/trufflesuite/ganache-ui/releases/download/v2.7.1/ganache-2.7.1-linux-x86_64.AppImage
 The local blockchain network must run on localhost, port 7545.
+
+
+Barbu Angelo-Gabriel
+angelo.barbu123@gmail.com
+Universitatea Politehnica Bucuresti
+Facultatea de Automatica si Calculatoare
+Ingineria Sistemelor
