@@ -1,43 +1,77 @@
-# [RO]Sistem blockchain pentru trasabilitatea și certificarea resurselor energetice
-Retea locala Blockchain rulata cu ajutorul Ganache si suita Truffle pentru o platforma de tranzactionare, monitorizare si certificare a resurselor energetice. La nivel de backend, se utilizeaza libraria Web3.py pentru efectuarea tranzactiei si emiterea contractului Smart scris in limbajul de programare Solidity.
-Pentru frontend, au fost utilizate HTML, CSS si JavaScript(Node.js, Express), iar conectarea la baza de date a fost efectuata prin libraria de JS mongoose.
+# Bachelor's Diploma Project: Blockchain System for Energy Resources Tracking and Certification
+### © Barbu Angelo-Gabriel - angelo.barbu123@gmail.com
+### University Politehnica of Bucharest, Faculty of Automatic Control and Computer Science, Automatic Control and Systems Engineering
+### 2022 - 2023
 
-Dependinte:
-- Script-ul de generare transactie "transactions.py" trebuie rulat folosind Python 3.10
-- Python: Web3.py, solcx, Pymongo
-- JavaScript: express, ejs, mongoose, body-parser, nodemon
+## Project Overview
+### [RO] Sistem blockchain pentru trasabilitatea și certificarea resurselor energetice
+Rețea locală Blockchain rulată cu ajutorul Ganache și suitei Truffle pentru o platformă de tranzacționare, monitorizare și certificare a resurselor energetice. La nivel de backend, se utilizează biblioteca **Web3.py** pentru efectuarea tranzacției și emiterea contractului smart scris în limbajul de programare Solidity. Pentru frontend, au fost utilizate **HTML**, **CSS** și **JavaScript** (Node.js, Express), iar conectarea la baza de date a fost realizată prin biblioteca JS **mongoose**.
 
-Pentru rulare, se instaleaza dependintele si se executa una din comenzile:
-- npm run serve server.js -> rulare prin node
-- npm run dev server.js -> rulare prin nodemon pentru modificari asupra codului in timp real
+### [EN]
+A local blockchain network developed using **Ganache** and **Truffle Suite** to facilitate the trading, monitoring, and certification of energy resources. This system leverages **Web3.py** for transaction management and **Solidity** for smart contract implementation, with a web interface built using **HTML**, **CSS**, and **JavaScript** (Node.js, Express).
 
-Serverul ruleaza pe localhost, port 3000.
+---
 
-Blockchain-ul local este initializat cu ajutorul Ganache din suita Truffle, iar AppImage-ul poate fi descarcat de aici: https://github.com/trufflesuite/ganache-ui/releases/download/v2.7.1/ganache-2.7.1-linux-x86_64.AppImage
-Reteaua locala blockchain trebuie rulata pe localhost, port 7545.
+### Features
+- **Blockchain Network**: Deployed locally via Ganache for safe testing and development.
+- **Smart Contracts**: Created in Solidity for secure and transparent energy resource transactions.
+- **Web3 Integration**: Uses Web3.py for transaction management and contract deployment.
+- **Web Interface**: Built with HTML, CSS, and JavaScript for user interaction and real-time data updates.
 
-# [EN]Blockchain system for energy resources' tracking and certification
-Local Blockchain network that runs using Ganache and Truffle suite for energy resources' trade, tracking and certification.
-Backend wise, Web3.py is used to trigger the transaction and deploy the smart contract written using Solidity programming language.
-Frontend wise, HTML, CSS and JavaScript(Node.js, Express) were used and they were connected using mongoose JS library.
+---
 
-Dependencies:
-- The transaction generation script "transactions.py" must be run using Python 3.10
-- Python: Web3.py, solcx, Pymongo
-- JavaScript: express, ejs, mongoose, body-parser, nodemon
+## Getting Started
 
-To run the server, dependencies must be installed and one of the following commands must be executed:
-- npm run serve server.js -> run using node
-- npm run dev server.js -> run using nodemon for real-time code modifications
+### Prerequisites
+Ensure the following are installed before proceeding:
+- **Python 3.10**
+- **Ganache** and **Truffle Suite** (for blockchain network setup)
+- **Node.js** and **npm**
 
-The server runs on localhost, port 3000.
+### Dependencies
+To install project dependencies, please follow the instructions for each language environment:
 
-The local blockchain network is initialised using Ganache and Truffle suite and the AppImage can be downloaded from here: https://github.com/trufflesuite/ganache-ui/releases/download/v2.7.1/ganache-2.7.1-linux-x86_64.AppImage
-The local blockchain network must run on localhost, port 7545.
+#### Python Dependencies
+- Web3.py
+- solcx
+- Pymongo
 
+#### JavaScript Dependencies
+- express
+- ejs
+- mongoose
+- body-parser
+- nodemon
 
-Barbu Angelo-Gabriel
-angelo.barbu123@gmail.com
-Universitatea Politehnica Bucuresti
-Facultatea de Automatica si Calculatoare
-Ingineria Sistemelor
+### Installation and Setup
+1. Clone this repository:
+   ```bash
+   git clone <repository-url>
+   cd <repository-name>
+   ```
+
+2. Install dependencies:
+    ```bash
+    npm install
+    ```
+
+3. Run the server using one of the following commands
+    - Node.js:
+        ```bash
+            npm run serve
+        ```
+    - Nodemon: 
+        ```bash
+            npm run dev
+        ```
+
+4. Start Ganache to initialize the local blockchain:
+    - Download the AppImage for Ganache [here](https://archive.trufflesuite.com/ganache/).
+    - Run Ganache on ```localhost```, port ```3000```.
+
+### Usage
+- **Server**: Runs on ```localhost```, port ```3000```.
+- **Blockchain Network**: Operates on ```localhost```, port ```7545```.
+
+## Additional Information
+This project was developed as part of the *Bachelor's Diploma Project [Lucrare de Licență]* in *Automatic Control and Systems Engineering [Automatică și Ingineria Sistemelor]* for **Universitatea Politehnica Bucuresti, Facultatea de Automatica si Calculatoare**. 
